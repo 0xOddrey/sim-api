@@ -1,20 +1,10 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
-import gensim
-import urllib.request
-import os
+import gensim.downloader as api
 
-# URL to download the FastText vectors
-url = 'https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.en.300.vec.gz'
-model_path = './cc.en.300.vec.gz'
-
-# Download the model if it doesn't exist
-if not os.path.exists(model_path):
-    urllib.request.urlretrieve(url, model_path)
-
-# Load the model
-model = gensim.models.KeyedVectors.load_word2vec_format(model_path)
+# Load the smaller Word2Vec model
+model = api.load("glove-twitter-25")
 
 class handler(BaseHTTPRequestHandler):
 
@@ -36,7 +26,7 @@ class handler(BaseHTTPRequestHandler):
         word = dic["word"]
         answer = dic['answer']
 
-        # Get vectors from Gensim FastText
+        # Get vectors from the smaller Word2Vec model
         word_vector = model[word]
         answer_vector = model[answer]
 
