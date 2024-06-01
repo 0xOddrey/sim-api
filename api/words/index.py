@@ -3,7 +3,7 @@ from urllib import parse
 import spacy
 import json
 
-nlp = spacy.load('en_core_web_sm')
+nlp = spacy.load('en-core-web-md')
 
 class handler(BaseHTTPRequestHandler):
 
