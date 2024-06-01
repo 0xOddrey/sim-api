@@ -1,48 +1,40 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
+import spacy
 import json
-import gensim.downloader as api
 
-# Load the smaller Word2Vec model
-model = api.load("glove-twitter-25")
+
+nlp = spacy.load("en-core-web-sm", disable=["tagger", "attribute_ruler", "lemmatizer"])
+
+
 
 class handler(BaseHTTPRequestHandler):
 
-    def _set_headers(self):
-        self.send_header('Content-Type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')  # Allow all origins
-        self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+	def _set_headers(self):
+		self.send_header('Content-Type', 'application/json')
+		self.send_header('Access-Control-Allow-Origin', '*')  # Allow all origins
+		self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
+		self.send_header('Access-Control-Allow-Headers', 'Content-Type')
 
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self._set_headers()
-        self.end_headers()
 
-    def do_GET(self):
-        s = self.path
-        dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
+	def do_OPTIONS(self):
+		self.send_response(200)
+		self._set_headers()
+		self.end_headers()
 
-        word = dic["word"]
-        answer = dic['answer']
 
-        # Get vectors from the smaller Word2Vec model
-        word_vector = model[word]
-        answer_vector = model[answer]
-
-        # Calculate cosine similarity
-        sim = self.cosine_similarity(answer_vector, word_vector)
-        score = sim * 100
-        result = json.dumps({"score": score})
-
-        self.send_response(200)
-        self._set_headers()
-        self.end_headers()
-        self.wfile.write(result.encode())
-        return
-
-    def cosine_similarity(self, vec1, vec2):
-        dot_product = vec1.dot(vec2)
-        norm_vec1 = (vec1 ** 2).sum() ** 0.5
-        norm_vec2 = (vec2 ** 2).sum() ** 0.5
-        return dot_product / (norm_vec1 * norm_vec2)
+	def do_GET(self):
+		s = self.path
+		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
+	
+		word = dic["word"]
+		answer = dic['answer']
+		print(word)
+		sim = nlp(answer).similarity(nlp(word))
+		score =  sim * 100
+		result = json.dumps({"score": score})
+		self.send_response(200)
+		self._set_headers()
+		self.end_headers()
+		self.wfile.write(result.encode())
+		return
