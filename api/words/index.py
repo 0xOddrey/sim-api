@@ -3,8 +3,8 @@ from urllib import parse
 import spacy
 import json
 
-
-nlp = spacy.load("en-core-web-sm", disable=["tagger", "attribute_ruler", "lemmatizer"])
+model_path = "./files/en_core_web_md-3.7.1-py3-none-any.whl"
+nlp = spacy.load(model_path, disable=["tagger", "attribute_ruler", "lemmatizer"])
 
 
 
