@@ -3,7 +3,8 @@ from urllib import parse
 import spacy
 import json
 
-nlp = spacy.load('en-core-web-md')
+nlp = spacy.load("en_core_web_sm", disable=["tagger", "attribute_ruler", "lemmatizer"])
+
 
 class handler(BaseHTTPRequestHandler):
 
