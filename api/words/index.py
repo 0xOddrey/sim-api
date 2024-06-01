@@ -1,12 +1,20 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
-import fasttext
-import fasttext.util
+import gensim
+import urllib.request
+import os
 
-# Download and load FastText English vectors
-fasttext.util.download_model('en', if_exists='ignore')
-ft = fasttext.load_model('cc.en.300.bin')
+# URL to download the FastText vectors
+url = 'https://dl.fbaipublicfiles.com/fasttext/vectors-crawl/cc.en.300.vec.gz'
+model_path = './cc.en.300.vec.gz'
+
+# Download the model if it doesn't exist
+if not os.path.exists(model_path):
+    urllib.request.urlretrieve(url, model_path)
+
+# Load the model
+model = gensim.models.KeyedVectors.load_word2vec_format(model_path)
 
 class handler(BaseHTTPRequestHandler):
 
@@ -28,9 +36,9 @@ class handler(BaseHTTPRequestHandler):
         word = dic["word"]
         answer = dic['answer']
 
-        # Get vectors from FastText
-        word_vector = ft.get_word_vector(word)
-        answer_vector = ft.get_word_vector(answer)
+        # Get vectors from Gensim FastText
+        word_vector = model[word]
+        answer_vector = model[answer]
 
         # Calculate cosine similarity
         sim = self.cosine_similarity(answer_vector, word_vector)
