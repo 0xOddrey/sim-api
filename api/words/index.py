@@ -3,7 +3,6 @@ from urllib import parse
 import spacy
 import json
 
-spacy.cli.download("en_core_web_sm")
 nlp = spacy.load("en-core-web-sm", disable=["tagger", "attribute_ruler", "lemmatizer"])
 
 
