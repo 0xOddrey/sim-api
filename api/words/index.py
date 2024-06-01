@@ -3,10 +3,7 @@ from urllib import parse
 import spacy
 import json
 
-model_path = "./files/en_core_web_md-3.7.1-py3-none-any.whl"
-nlp = spacy.load(model_path, disable=["tagger", "attribute_ruler", "lemmatizer"])
-
-
+nlp = spacy.load('en_core_web_sm')
 
 class handler(BaseHTTPRequestHandler):
 
