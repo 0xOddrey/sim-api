@@ -29,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
 	
 		word = dic["word"]
 		answer = dic['answer']
-		print(word)
+		print(word, answer)
 		sim = nlp(answer).similarity(nlp(word))
 		score =  sim * 100
 		result = json.dumps({"score": score})
