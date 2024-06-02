@@ -1,8 +1,8 @@
 from http.server import BaseHTTPRequestHandler
 from urllib import parse
-
 import json
-
+import spacy 
+model = spacy.load('en_core_web_md')
 
 
 class handler(BaseHTTPRequestHandler):
@@ -26,7 +26,10 @@ class handler(BaseHTTPRequestHandler):
 	
 		word = dic["word"]
 		answer = dic['answer']
-		result = json.dumps({"score": 5})
+		doc1 = model(word)
+		doc2 = model(answer)
+		sim = doc1.similarity(doc2)
+		result = json.dumps({"score": sim})
 		self.send_response(200)
 		self._set_headers()
 		self.end_headers()
