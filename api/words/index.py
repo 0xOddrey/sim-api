@@ -4,6 +4,7 @@ import spacy
 import json
 
 
+
 nlp = spacy.load("en_core_web_md")
 
 
@@ -28,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
 		dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
 		word = dic["word"]
 		answer = dic['answer']
-		sim = nlp(answer).similarity(nlp(word))
+		sim = nlp(word).similarity(nlp(answer))
 		score =  sim * 100
 		result = json.dumps({"score": score})
 		self.send_response(200)
