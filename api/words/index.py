@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import json
 import spacy 
-model = spacy.load('en_core_web_md')
+model = spacy.load('en-core-web-sm')
 
 
 class handler(BaseHTTPRequestHandler):
