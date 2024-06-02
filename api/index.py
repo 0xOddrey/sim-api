@@ -42,7 +42,7 @@ class handler(BaseHTTPRequestHandler):
 			if letter in answer_letters:
 				overlap += 1
 			total += 1
-		if overlap/total > 0.9:
+		if overlap/total > 0.8:
 			result = json.dumps({"score": 0})
 			self.send_response(200)
 			self._set_headers()
