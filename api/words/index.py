@@ -2,9 +2,9 @@ from http.server import BaseHTTPRequestHandler
 from urllib import parse
 import spacy
 import json
-dictionary=PyDictionary()
 
-nlp = spacy.load("en_core_web_sm")
+
+nlp = spacy.load("en_core_web_md")
 
 
 
