@@ -9,7 +9,7 @@ class handler(BaseHTTPRequestHandler):
 
 	def _set_headers(self):
 		self.send_header('Content-Type', 'application/json')
-		self.send_header('Access-Control-Allow-Origin', '*')  # Allow all origins
+		self.send_header('Access-Control-Allow-Origin', '*')  # Allow all originsss
 		self.send_header('Access-Control-Allow-Methods', 'GET, OPTIONS')
 		self.send_header('Access-Control-Allow-Headers', 'Content-Type')
 
